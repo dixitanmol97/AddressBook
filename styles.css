@@ -52,25 +52,15 @@ nav {
     text-align: center;
     text-decoration: none;
     color: black;
-    background-color: rgb(0 0 0 / 11%);
-}
-
-#group {
-
 }
 
 #group-items {
     display: none;
 }
 
-#group-items a:hover, #menu-items a:hover {
+#group-items a:hover, #menu-items a:hover, #group-items a.active {
     background-color: rgb(0 0 0 / 52%);
 }
-
-#group-items a:active, #menu-items a:active{
-    background-color: #fff3e0;
-}
-
 
 main{
     transition: margin-left 0.5s;

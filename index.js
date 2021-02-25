@@ -25,6 +25,28 @@ groups.addEventListener("click", ()=>{
 
 
 
+function displayGroup(groupName){
+    search_contact.value = '';
+    const selectedGroup = event.target;
+    if(selectedGroup.className.includes("active")){
+        selectedGroup.className = selectedGroup.className.replace(" active","");
+        init(address_book);
+    }
+    else{
+        const groupList = document.getElementsByClassName("active");
+        for(let i=0;i<groupList.length;i++){
+            groupList[i].className = groupList[i].className.replace("active", "");
+        }
+        selectedGroup.className += ' active';
+        const new_address_book = address_book.filter((address)=>{
+            return address.group.includes(groupName);            
+        });
+        init(new_address_book);
+    }
+}
+
+
+
 
 
 
@@ -145,19 +167,6 @@ handleChange = ()=>{
     }
 }
 search_contact.addEventListener("input",handleChange());
-
-
-
-
-
-
-
-function displayGroup(groupName){
-    const new_address_book = address_book.filter((address)=>{
-        return address.group.includes(groupName);            
-    });
-    init(new_address_book);
-}
 
 
 

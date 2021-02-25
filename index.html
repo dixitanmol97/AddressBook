@@ -4,7 +4,6 @@
         <title>Address Book</title>
         <link rel="stylesheet" href="./styles.css">
         <script src="index.js" defer></script>
-        <script src="search.js" defer></script>
     </head>
 
     <body>
@@ -18,13 +17,10 @@
             <section id="menu-items">   <!--Menu-->
                     <a href="#" id="groups">Groups &#9660;</a>
                     <div id="group-items">
-                        <a href="#" id="group-items-favourites" onclick="displayGroup('Favourites')">Favourites</a>
-                        <a href="#" id="group-items-work" onclick="displayGroup('Work')">Work</a>
-                        <a href="#" id="group-items-home" onclick="displayGroup('Home')">Home</a>
+                        <a href="#" id="group-items-favourites" class="btn" onclick="displayGroup('Favourites')">Favourites</a>
+                        <a href="#" id="group-items-work" class="btn" onclick="displayGroup('Work')">Work</a>
+                        <a href="#" id="group-items-home" class="btn" onclick="displayGroup('Home')">Home</a>
                     </div>
-                    <br>
-                    <br>
-
                     <a href="#">Import</a>
                     <a href="#">Export</a>  
             </section> 
