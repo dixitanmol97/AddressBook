@@ -57,6 +57,10 @@ const create_new_contact_modal = document.getElementById("create-new-contact-mod
 
 create_new_contact.addEventListener("click",()=>{
     create_new_contact_modal.style.display = "block";
+    const activeGroup = activeGroupGenerator();
+    if(activeGroup==null)
+        activeGroup = "None";
+    document.getElementById("group-new-contact").value=activeGroup;
 });
 
 const saveContact = (event)=>{
@@ -72,7 +76,6 @@ const saveContact = (event)=>{
     address_book.push(newContact);
     init(address_book);
     closeModal(create_new_contact_modal);
-    //event.preventDefault();
 }
 
 const closeModal = (modal = create_new_contact_modal)=>{
@@ -144,8 +147,6 @@ function displayContact(event){
 
 
 
-
-
 const search_contact = document.getElementById("search-contact");
 handleChange = ()=>{
     let timeout;
@@ -153,16 +154,17 @@ handleChange = ()=>{
         clearTimeout(timeout);
         timeout = setTimeout((previous)=>{
             const name = event.target.value;
-            new_address_book = address_book.filter((address)=>{
+            const matchedAddress = address_book.filter((address)=>{             
                 if(address.name.toLowerCase().search(name.toLowerCase()) !== -1)
                     return true;
                 else if(address.email.toLowerCase().search(name.toLowerCase()) !== -1)
                     return true;
                 else if(address.phone.search(name.toLowerCase()) !== -1)
                     return true;
-                return false;
+                else
+                    return false
             });
-            init(new_address_book);            
+            init(matchedAddress);            
         }, 100);
     }
 }
@@ -171,8 +173,32 @@ search_contact.addEventListener("input",handleChange());
 
 
 
+function activeGroupGenerator(){
+    const groupItems = document.getElementById("group-items");
+    const activeGroupList = groupItems.getElementsByClassName("active");
+    if(activeGroupList.length==0)
+        return null;
+    else{
+        const activeGroup = activeGroupList[0].id.slice(12);
+        return activeGroup;
+    }
+}
 
-
+function activeGroupListGenerator(addressBook){
+    
+    const activeGroup = activeGroupGenerator();
+    if(activeGroup == null)
+        return addressBook;
+    else{
+        return addressBook.filter(address=>{
+            console.log(address);
+            if(address.group.includes(activeGroup))
+                return true;
+            else
+                return false;
+        });
+    }
+}
 
 const address_book_area = document.getElementById("address-book-area");
 const address_book = [
@@ -251,13 +277,14 @@ function renderAddressBook(address_book){
 }
 function init(address_book){
     address_book_area.textContent = '';
-    address_book.sort(function(a, b){
+    const activeGroupList = activeGroupListGenerator(address_book);
+    activeGroupList.sort(function(a, b){
         if(a.name.toLowerCase() < b.name.toLowerCase())
             return -1;
         else
             return 1;
     });
-    renderAddressBook(address_book);
+    renderAddressBook(activeGroupList);
 }
 
 init(address_book);

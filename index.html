@@ -17,9 +17,9 @@
             <section id="menu-items">   <!--Menu-->
                     <a href="#" id="groups">Groups &#9660;</a>
                     <div id="group-items">
-                        <a href="#" id="group-items-favourites" class="btn" onclick="displayGroup('Favourites')">Favourites</a>
-                        <a href="#" id="group-items-work" class="btn" onclick="displayGroup('Work')">Work</a>
-                        <a href="#" id="group-items-home" class="btn" onclick="displayGroup('Home')">Home</a>
+                        <a href="#" id="group-items-Favourites" class="btn" onclick="displayGroup('Favourites')">Favourites</a>
+                        <a href="#" id="group-items-Work" class="btn" onclick="displayGroup('Work')">Work</a>
+                        <a href="#" id="group-items-Home" class="btn" onclick="displayGroup('Home')">Home</a>
                     </div>
                     <a href="#">Import</a>
                     <a href="#">Export</a>  
@@ -48,7 +48,7 @@
                             <img src="./images/user_profile.png">
                         </div>
                         <div class="flex-item-2">
-                            <form onsubmit="saveContact()">
+                            <form onsubmit="saveContact(); return false;">
                                 <table>
                                     <tr>
                                         <td class="col1"><label for="name-new-contact">Name</label></td>
@@ -65,7 +65,7 @@
                                     <tr>
                                         <td class="col1"><label for="group-new-contact">Group</label></td>
                                         <td><select id="group-new-contact" name="Group">
-                                            <option value="None" selected>None</option>
+                                            <option value="None">None</option>
                                             <option value="Favourites">Favourites</option>
                                             <option value="Home">Home</option>
                                             <option value="Work">Work</option>
