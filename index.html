@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Address Book</title>
+        <link rel="stylesheet" href="./styles.css">
+        <script src="index.js" defer></script>
+        <script src="search.js" defer></script>
+    </head>
+
+    <body>
+        <nav>     <!--Collapsable menu on the left-->
+            <section id="header">       <!--Welcome user Header-->
+                <div id="image-container">
+                </div>
+                <div id="text-container">Welcome Anmol !</div>
+            </section>
+            
+            <section id="menu-items">   <!--Menu-->
+                    <a href="#" id="groups">Groups &#9660;</a>
+                    <div id="group-items">
+                        <a href="#" id="group-items-favourites" onclick="displayGroup('Favourites')">Favourites</a>
+                        <a href="#" id="group-items-work" onclick="displayGroup('Work')">Work</a>
+                        <a href="#" id="group-items-home" onclick="displayGroup('Home')">Home</a>
+                    </div>
+                    <br>
+                    <br>
+
+                    <a href="#">Import</a>
+                    <a href="#">Export</a>  
+            </section> 
+        </nav>
+        
+        <main>
+            <button id="hamburger-button">&#9776</button>     <!--Ellipsis to collapse/open the menu bar-->
+            
+            <section>       <!--Search and create new contact-->
+                <input id="search-contact" type="text" placeholder="Search">
+               
+                <div id="create-new-contact">     <!--Create new contact-->
+                    <img src="./images/plus-icon.png" alt="Create new contact button">
+                </div>   
+            </section>
+            
+            <section id="address-book-area">  <!--Contact placards display area-->
+            </section>
+            
+            <section id="create-new-contact-modal" class="modal">   <!--Create New Contact Modal-->
+                <div class="modal-content-area">
+                    <h2>Create New Contact</h2>
+                    <div class="modal-flex-area">
+                        <div class="flex-item-1">
+                            <img src="./images/user_profile.png">
+                        </div>
+                        <div class="flex-item-2">
+                            <form onsubmit="saveContact()">
+                                <table>
+                                    <tr>
+                                        <td class="col1"><label for="name-new-contact">Name</label></td>
+                                        <td><input type="text" id="name-new-contact" name="Name" placeholder="John Doe" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1"><label for="phone-new-contact">Phone</label></td>
+                                        <td><input type="tel" id="phone-new-contact" name="Phone" pattern="[1-9]{1}[0-9]{9}" placeholder="99170 20367"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1"><label for="email-new-contact">Email</label></td>
+                                        <td> <input type="email" id="email-new-contact" name="Email" placeholder="johndoe@example.com"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1"><label for="group-new-contact">Group</label></td>
+                                        <td><select id="group-new-contact" name="Group">
+                                            <option value="None" selected>None</option>
+                                            <option value="Favourites">Favourites</option>
+                                            <option value="Home">Home</option>
+                                            <option value="Work">Work</option>
+                                        </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1"><label for="birth-day-new-contact">Birthday</label></td>
+                                        <td><input type="date" id="birth-day-new-contact" name="Birthday"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1"><label for="address-new-contact">Address</label></td>
+                                        <td><textarea id="address-new-contact" name="Address"></textarea></td>
+                                    </tr>
+                                </table>
+                                <div id="buttons">
+                                    <input type="button" value="Cancel" onclick="closeModal()" />
+                                    <input type="submit" value="Submit" />
+                                <div>
+                            </form>                        
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="view-contact-modal" class="modal">     <!--View Contact Modal-->
+                <div class="modal-content-area">
+                </div>
+            </section>
+
+        </main>
+    </body>
+</html>

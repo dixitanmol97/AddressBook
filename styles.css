@@ -1,0 +1,218 @@
+html {
+    font-size: 14px;
+}
+nav {
+    width: 0;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgb(0 0 0 / 17%) ;
+    overflow-x: hidden;
+    z-index: 1;
+    transition: 0.5s;
+}
+
+#header {
+    margin-top: 0;
+    padding-top: 4%;
+    height: 15%;
+    width: 100%;
+    display: block;
+    border-bottom: 1px solid black;
+    background-color: rgb(0 0 0 / 52%);
+}
+
+#image-container {
+    width: 50%;
+    height: 50%;
+    background-image: url("./images/user_profile.png");
+    margin-left: auto;
+    margin-right: auto;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+
+#text-container {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    padding: 5% 5%;
+}
+
+#menu-items {
+    margin-top: 25%;
+}
+
+#menu-items a, #group-items a {
+    width: 100%;
+    display: block;
+    font-size: 1.6rem;
+    line-height: 2em;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    background-color: rgb(0 0 0 / 11%);
+}
+
+#group {
+
+}
+
+#group-items {
+    display: none;
+}
+
+#group-items a:hover, #menu-items a:hover {
+    background-color: rgb(0 0 0 / 52%);
+}
+
+#group-items a:active, #menu-items a:active{
+    background-color: #fff3e0;
+}
+
+
+main{
+    transition: margin-left 0.5s;
+}
+
+#hamburger-button {
+    position: sticky;
+    top: 15px;
+    left: 5px;
+    margin-top: 10px;
+    background-color: white;
+}
+
+#hamburger-button:hover {
+    background-color: darkgray;
+}
+
+main section:first-of-type {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 5px 10px 10px 5px;
+    align-items: center;
+}
+
+#search-contact{
+    width: 40%;
+    font-size: 25px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+#create-new-contact{
+    display: inline;
+}
+
+#create-new-contact>img {
+    width: 80px;
+    height: 80px;
+}
+
+#address-book-area {
+    margin: 3% 6%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 5rem;
+    grid-row-gap: 5rem;
+    justify-content: center;
+    justify-items: center;
+}
+
+.placard {
+    width: 100%;
+    height: 300px;
+    background-color: rgb(0 0 0 / 40%);
+    border-radius: 4rem;
+}
+
+.placard table {
+    margin: 15% auto;
+    padding: 10% 5%;
+    border-radius: 4rem;
+    background-color: #fff3e0eb;
+    height: 70%;
+}
+
+.placard tr, .placard td {
+    line-height: 2em;
+}
+
+.modal {
+    background-color: rgba(0,0,0,0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    display: none;
+}
+
+.modal-content-area > h2 {
+    text-align: center;
+    line-height: 2em;
+    font-size: xx-large;
+    margin-bottom: 3%;
+}
+
+.modal-content-area {
+    border: 1px solid black;
+    background-color: #add;
+    margin: 10% auto;
+    height: 70%;
+    width: 70%;
+    position: relative;
+    border-radius: 12rem;
+}
+
+.modal-flex-area {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 76%;
+    width: 96%;
+    padding: 2%;
+    column-gap: 5%;
+}
+/*
+.modal-flex-area img {
+    width: 100%;
+    height: 100%;
+}
+
+.modal-flex-area form {
+    width: 100%;
+    height: 100%;
+}*/
+
+.modal-flex-area td{
+    font-size: 1.5rem;
+    text-align: left;
+    padding-left: 4%;
+}
+
+.modal-flex-area tr{
+    line-height: 3rem;
+}
+
+.modal-flex-area table {
+}
+
+.modal-flex-area #buttons {
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+}
+
+.modal-flex-area input[type="button"], .modal-flex-area input[type="submit"] {
+    width: 100px;
+    height: 40px;
+}
+
+ td.col1 {
+     font-weight: bold;
+ }
