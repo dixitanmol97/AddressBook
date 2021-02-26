@@ -57,7 +57,7 @@ const create_new_contact_modal = document.getElementById("create-new-contact-mod
 
 create_new_contact.addEventListener("click",()=>{
     create_new_contact_modal.style.display = "block";
-    const activeGroup = activeGroupGenerator();
+    let activeGroup = activeGroupGenerator();
     if(activeGroup==null)
         activeGroup = "None";
     document.getElementById("group-new-contact").value=activeGroup;
@@ -65,13 +65,14 @@ create_new_contact.addEventListener("click",()=>{
 
 const saveContact = (event)=>{
     const newContact = {
+        id: generateAddressID(),
         name: `${document.getElementById("name-new-contact").value}`,
         phone: `${document.getElementById("phone-new-contact").value}`,
         email: `${document.getElementById("email-new-contact").value}`,
         group: `${document.getElementById("group-new-contact").value}`,
         address: `${document.getElementById("address-new-contact").value}`,
         birth_day: `${document.getElementById("birth-day-new-contact").value}`,
-        photo: "",
+        photo: `${document.getElementById("photo-new-contact").value}`,
     }
     address_book.push(newContact);
     init(address_book);
@@ -100,9 +101,9 @@ const view_contact_modal = document.getElementById("view-contact-modal");
 
 function displayContact(event){
     address = address_book.find((addr)=>{
-        return addr.name == event.currentTarget.id;
+        return addr.id == event.currentTarget.id;
     });
-    view_contact_modal.style.display = "block";
+    view_contact_modal.style.display = "block";     
     view_contact_modal.children[0].innerHTML = `
     <h2>Contact Details</h2>
     <div class="modal-flex-area">
@@ -138,7 +139,6 @@ function displayContact(event){
             </table>
         </div>
     </div>`;
-    console.log(event.currentTarget.id, view_contact_modal.children[0]);
 }
 
 
@@ -191,7 +191,6 @@ function activeGroupListGenerator(addressBook){
         return addressBook;
     else{
         return addressBook.filter(address=>{
-            console.log(address);
             if(address.group.includes(activeGroup))
                 return true;
             else
@@ -200,44 +199,54 @@ function activeGroupListGenerator(addressBook){
     }
 }
 
+function generateAddressID(){
+    return '_' + Math.random().toString(36).substr(2, 9);
+}
+
 const address_book_area = document.getElementById("address-book-area");
 const address_book = [
-    {name: "Enakshi Mehra",
+    {id: generateAddressID(),
+    name: "Enakshi Mehra",
     phone: "+919374134502",
     email: "Enakshi48@yahoo.co.in",
     group: ["Favourites"],
     address: "Chapalfurt, WB 494 600",
     birth_day: "1990-12-14",
     photo: "",},
-    {name: "Devadatt Kaniyar",
+    {id: generateAddressID(),
+    name: "Devadatt Kaniyar",
     phone: "+917500283517",
     email: "Devadatt74@gmail.com",
     group: ["Work"],
     address: "West Devakberg, NL 872 861",
     birth_day: "1991-1-28",
     photo: "",},
-    {name: "Sheela Khan",
+    {id: generateAddressID(),
+    name: "Sheela Khan",
     phone: "6155925572",
     email: "Sheela_Khan21@gmail.com",
     group: ["Favourites", "Work"],
     address: "Lake Jaya, NL 285 822",
     birth_day: "1984-12-6",
     photo: "",},
-    {name: "Karan Nair",
+    {id: generateAddressID(),
+    name: "Karan Nair",
     phone: "+916155925572",
     email: "Karan99@yahoo.co.in",
     group: ["Favourites", "Home"],
     address: "Dhyaneshburgh, PY 886 773",
     birth_day: "1946-12-23",
     photo: "",},
-    {name: "Vaishvi Abbott",
+    {id: generateAddressID(),
+    name: "Vaishvi Abbott",
     phone: "+916155925572",
     email: "Vaishvi85@gmail.com",
     group: ["Work"],
     address: "North Bhanumatiside, UK 604 941",
     birth_day: "1955-4-19",
     photo: "",},
-    {name: "Chatura Joshi",
+    {id: generateAddressID(),
+    name: "Chatura Joshi",
     phone: "+916155925572",
     email: "Chatura60@gmail.com",
     group: ["Home"],
@@ -246,32 +255,61 @@ const address_book = [
     photo: "",},
 ];
 
+function handleAddressDelete(addressID){
+    const index = address_book.findIndex((element)=>{
+        return element.id==addressID;
+    })
+    address_book.splice(index, 1);
+    init(address_book);
+}
+
+function handleAddressEdit(addressID){
+}
+
+function handleAddressOptions(event){
+    if(event.target.id=='placard-delete')
+        handleAddressDelete(event.currentTarget.id);
+    else if(event.target.id=='placard-edit')
+        handleAddressEdit(event.currentTarget.id);
+}
+
 function renderAddressBook(address_book){
     address_book.forEach(element => {
         const address = document.createElement("div");
-        address.className = "placard"
-        address.id = element.name;
-        address.addEventListener("click",displayContact);
-        address.innerHTML = `
-            <table>
-                <tr>
-                    <td class="col1">Name:</td>
-                    <td>${element.name}</td>
-                </tr>
-                <tr>
-                    <td class="col1">Phone:</td>
-                    <td>${element.phone}</td>
-                </tr>
-                <tr>
-                    <td class="col1">Email:</td>
-                    <td>${element.email}</td>
-                </tr>
-                <tr>
-                    <td class="col1">Group:</td>
-                    <td>${element.group}</td>
-                </tr>
-            </table>`  
-            address_book_area.appendChild(address);
+        address.className = 'placard';
+
+        const addressField = document.createElement("table");
+        addressField.id = element.id;
+        addressField.addEventListener("click",displayContact);
+        addressField.innerHTML = `
+            <tr>
+                <td class="col1">Name:</td>
+                <td>${element.name}</td>
+            </tr>
+            <tr>
+                <td class="col1">Phone:</td>
+                <td>${element.phone}</td>
+            </tr>
+            <tr>
+                <td class="col1">Email:</td>
+                <td>${element.email}</td>
+            </tr>
+            <tr>
+                <td class="col1">Group:</td>
+                <td>${element.group}</td>
+            </tr>`  
+        
+        const addressOptions = document.createElement("div");
+        addressOptions.id=element.id;
+        addressOptions.addEventListener("click",handleAddressOptions)
+        addressOptions.innerHTML = `
+            <img id="placard-delete" src="./images/delete.jpeg" width="50em" height="50em">
+            <img id="placard-edit" src="./images/edit-icon-6.png" width="50em" height="50em">
+        `
+
+        address.appendChild(addressOptions);
+        address.appendChild(addressField);        
+        address_book_area.appendChild(address);
     });
 
 }
