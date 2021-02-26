@@ -79,8 +79,33 @@ const saveContact = (event)=>{
     closeModal(create_new_contact_modal);
 }
 
-const closeModal = (modal = create_new_contact_modal)=>{
+const saveEditedContact = (htmlObject)=>{
+    const addressID = htmlObject[0].id;
+    const index = address_book.findIndex((element)=>{
+        return element.id==addressID;
+    })
+    address_book[index].name = document.getElementById("name-edit-contact").value;
+    address_book[index].phone = document.getElementById("phone-edit-contact").value;
+    address_book[index].email = document.getElementById("email-edit-contact").value;
+    address_book[index].group = document.getElementById("group-edit-contact").value;
+    address_book[index].address = document.getElementById("address-edit-contact").value;
+    address_book[index].birth_day = document.getElementById("birth-day-edit-contact").value;
+    address_book[index].photo = document.getElementById("photo-edit-contact").value;
+
+    init(address_book);
+    closeModal(editContactModal);
+}
+
+const closeModal = (modal)=>{
     modal.style.display = "none";
+}
+
+function closeCreateNewContactModal(){
+    closeModal(create_new_contact_modal);
+}
+
+function closeEditContactModal(){
+    closeModal(editContactModal);
 }
 
 window.addEventListener("click", (event)=>{
@@ -88,6 +113,8 @@ window.addEventListener("click", (event)=>{
         closeModal(create_new_contact_modal);
     else if(event.target === view_contact_modal)
         closeModal(view_contact_modal);
+    else if(event.target === editContactModal)
+        closeModal(editContactModal);
 })
 
 
@@ -143,6 +170,64 @@ function displayContact(event){
 
 
 
+const editContactModal = document.getElementById("edit-contact-modal");
+
+function handleAddressEdit(addressID){
+    editContactModal.style.display = "block";
+    const address = address_book.find((addr)=>{
+        return addr.id == addressID;
+    }); 
+    editContactModal.children[0].innerHTML = 
+    `<h2>Edit Contact</h2>
+    <div class="modal-flex-area">
+        <div class="flex-item-1">
+            <img src="./images/user_profile.png">
+        </div>
+        <div class="flex-item-2">
+            <form onsubmit="saveEditedContact(${address.id}); return false;">
+                <table>
+                    <tr>
+                        <td class="col1"><label for="name-edit-contact">Name</label></td>
+                        <td><input type="text" id="name-edit-contact" name="Name" value='${address.name}' required></td>
+                    </tr>
+                    <tr>
+                        <td class="col1"><label for="phone-edit-contact">Phone</label></td>
+                        <td><input type="tel" id="phone-edit-contact" name="Phone" pattern="[1-9]{1}[0-9]{9}" value=${address.phone}></td>
+                    </tr>
+                    <tr>
+                        <td class="col1"><label for="email-edit-contact">Email</label></td>
+                        <td> <input type="email" id="email-edit-contact" name="Email" value=${address.email}></td>
+                    </tr>
+                    <tr>
+                        <td class="col1"><label for="group-edit-contact">Group</label></td>
+                        <td><select id="group-edit-contact" name="Group">
+                            <option value="None" ${"None"==address.group?"selected":""}>None</option>
+                            <option value="Favourites" ${"Favourites"==address.group?"selected":""}>Favourites</option>
+                            <option value="Home" ${"Home"==address.group?"selected":""}>Home</option>
+                            <option value="Work" ${"Work"==address.group?"selected":""}>Work</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td class="col1"><label for="birth-day-edit-contact">Birthday</label></td>
+                        <td><input type="date" id="birth-day-edit-contact" name="Birthday" value=${address.birth_day}                  
+                    </tr>
+                    <tr>
+                        <td class="col1"><label for="address-edit-contact">Address</label></td>
+                        <td><textarea id="address-edit-contact" name="Address">${address.address}</textarea></td>
+                    </tr>
+                    <tr>
+                        <td class="col1"><label for="photo-edit-contact">Photo</label></td>
+                        <td><input type="file" accept="image/gif, image/jpeg, image/png" id="photo-edit-contact" name="Photo" value=${address.photo}></input></td>
+                    </tr>
+                </table>
+                <div id="buttons">
+                    <input type="button" value="Cancel" onclick="closeEditContactModal()" />
+                    <input type="submit" value="Submit" />
+                <div>
+            </form>                        
+        </div>
+    </div>`
+}
 
 
 
@@ -207,51 +292,51 @@ const address_book_area = document.getElementById("address-book-area");
 const address_book = [
     {id: generateAddressID(),
     name: "Enakshi Mehra",
-    phone: "+919374134502",
+    phone: "9374134502",
     email: "Enakshi48@yahoo.co.in",
-    group: ["Favourites"],
+    group: "Favourites",
     address: "Chapalfurt, WB 494 600",
     birth_day: "1990-12-14",
     photo: "",},
     {id: generateAddressID(),
     name: "Devadatt Kaniyar",
-    phone: "+917500283517",
+    phone: "7500283517",
     email: "Devadatt74@gmail.com",
-    group: ["Work"],
+    group: "Work",
     address: "West Devakberg, NL 872 861",
-    birth_day: "1991-1-28",
+    birth_day: "1991-01-24",
     photo: "",},
     {id: generateAddressID(),
     name: "Sheela Khan",
     phone: "6155925572",
     email: "Sheela_Khan21@gmail.com",
-    group: ["Favourites", "Work"],
+    group: "Work",
     address: "Lake Jaya, NL 285 822",
-    birth_day: "1984-12-6",
+    birth_day: "1984-06-12",
     photo: "",},
     {id: generateAddressID(),
     name: "Karan Nair",
-    phone: "+916155925572",
+    phone: "6155925572",
     email: "Karan99@yahoo.co.in",
-    group: ["Favourites", "Home"],
+    group: "Favourites",
     address: "Dhyaneshburgh, PY 886 773",
-    birth_day: "1946-12-23",
+    birth_day: "1943-04-12",
     photo: "",},
     {id: generateAddressID(),
     name: "Vaishvi Abbott",
-    phone: "+916155925572",
+    phone: "6155925572",
     email: "Vaishvi85@gmail.com",
-    group: ["Work"],
+    group: "Work",
     address: "North Bhanumatiside, UK 604 941",
-    birth_day: "1955-4-19",
+    birth_day: "1955-04-19",
     photo: "",},
     {id: generateAddressID(),
     name: "Chatura Joshi",
-    phone: "+916155925572",
+    phone: "6155925572",
     email: "Chatura60@gmail.com",
-    group: ["Home"],
+    group: "Home",
     address: "Chapalfurt, WB 494 600",
-    birth_day: "1988-8-22",
+    birth_day: "1988-08-22",
     photo: "",},
 ];
 
@@ -261,9 +346,6 @@ function handleAddressDelete(addressID){
     })
     address_book.splice(index, 1);
     init(address_book);
-}
-
-function handleAddressEdit(addressID){
 }
 
 function handleAddressOptions(event){

@@ -208,9 +208,6 @@ main section:first-of-type {
     line-height: 3rem;
 }
 
-.modal-flex-area table {
-}
-
 .modal-flex-area #buttons {
     position: absolute;
     bottom: 10%;
