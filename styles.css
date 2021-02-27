@@ -117,7 +117,7 @@ main section:first-of-type {
 #address-book-area {
     margin: 5% 6%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 350px);
     grid-column-gap: 4rem;
     grid-row-gap: 5rem;
     justify-content: center;
@@ -126,16 +126,100 @@ main section:first-of-type {
 }
 
 .placard {
-    width: 100%;
+    position: relative;
+    width: 350px;
     height: 300px;
+    border-radius: 12px;
+    background-color: gray;
+  }
+  
+.placard .group-initial {
+    position: absolute;
+    top: 10px;
+    left: 290px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: green;
+    z-index: 1;
+  }
+
+.placard .profile {
+    position: absolute;
+    top: 55px;
+    left: 10px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
 }
 
-.placard:hover {
-    background-color: rgb(204 93 21);
-    border-radius: 4rem;  
+.placard .profile h1 {
+    font-size: 4rem; 
+    text-align: center; 
+    margin-top: 43px;
 }
 
-.placard:hover > div {
+.placard .group-initial h2 {
+    font-size: 1.5rem; 
+    text-align: center; 
+    margin-top: 13px;
+    font-weight: 500;
+}
+
+.placard .profile-photo {
+    position: absolute;
+    top: 55px;
+    left: 10px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+  
+.placard .content {
+    position: absolute;
+    top: 35px;
+    left: 170px;
+    width: 150px;
+    height: 230px;  
+    padding-left: 10px;
+    padding-right: 10px;  
+}
+
+.placard .content h1{
+    font-size: 2.2rem;
+}
+
+.placard .content h2{
+    font-size: 1.5rem;
+    font-weight: normal;
+}
+
+.placard .content p{
+    font-size: 1rem;
+}
+
+.placard .date-created {
+    position: absolute;
+    top: 240px;
+    left: 10px;
+    width: 180px;
+    height: 50px;
+  }
+
+.placard .options {
+    position: absolute;
+    top: 240px;
+    left: 200px;
+    width: 140px;
+    height: 50px;
+    display: none;
+}
+
+.placard .options img {
+    margin-left: 15px;
+}
+
+.placard:hover > .options {
     display: block;
 }
 
@@ -145,16 +229,6 @@ main section:first-of-type {
     width: 85%;
     height: 100%;
     background-color: #f0a87a;
-}
-
-.placard > div{
-    display: none;
-    width: 15%;
-    height: 100%;
-    float: right;
-}
-.placard > div > img {
-    margin: 65% auto;
 }
 
 .placard td.col1 {

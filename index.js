@@ -4,42 +4,42 @@ const main = document.querySelector("main");
 const groups = document.getElementById("groups");
 const group_items = document.getElementById("group-items");
 
-hamburger_button.addEventListener("click",()=>{
-    if(nav_bar.style.width === "15%"){
+hamburger_button.addEventListener("click", () => {
+    if (nav_bar.style.width === "15%") {
         nav_bar.style.width = "0%";
         main.style.marginLeft = "0%";
     }
-    else{
+    else {
         nav_bar.style.width = "15%";
         main.style.marginLeft = "15%";
     }
 });
 
-groups.addEventListener("click", ()=>{
-    if(group_items.style.display === "block"){
+groups.addEventListener("click", () => {
+    if (group_items.style.display === "block") {
         group_items.style.display = "none";
     }
     else
-        group_items.style.display = "block";        
+        group_items.style.display = "block";
 });
 
 
 
-function displayGroup(groupName){
+function displayGroup(groupName) {
     search_contact.value = '';
     const selectedGroup = event.target;
-    if(selectedGroup.className.includes("active")){
-        selectedGroup.className = selectedGroup.className.replace(" active","");
+    if (selectedGroup.className.includes("active")) {
+        selectedGroup.className = selectedGroup.className.replace(" active", "");
         init(address_book);
     }
-    else{
+    else {
         const groupList = document.getElementsByClassName("active");
-        for(let i=0;i<groupList.length;i++){
+        for (let i = 0; i < groupList.length; i++) {
             groupList[i].className = groupList[i].className.replace("active", "");
         }
         selectedGroup.className += ' active';
-        const new_address_book = address_book.filter((address)=>{
-            return address.group.includes(groupName);            
+        const new_address_book = address_book.filter((address) => {
+            return address.group.includes(groupName);
         });
         init(new_address_book);
     }
@@ -49,33 +49,32 @@ function displayGroup(groupName){
 
 
 
-
-
-
 const create_new_contact = document.getElementById("create-new-contact");
 const create_new_contact_modal = document.getElementById("create-new-contact-modal");
 
-create_new_contact.addEventListener("click",()=>{
+create_new_contact.addEventListener("click", () => {
     create_new_contact_modal.style.display = "block";
     const formElement = create_new_contact_modal.querySelector("form");
     formElement.reset();
     let activeGroup = activeGroupGenerator();
-    if(activeGroup==null)
+    if (activeGroup == null)
         activeGroup = "None";
-    document.getElementById("group-new-contact").value=activeGroup;
+    document.getElementById("group-new-contact").value = activeGroup;
 });
 
-function getPhotoPath(path){
-    if(path == null)
+function getPhotoPath(path) {
+    
+    console.log(path);
+    if(path == '')
         return null;
     console.log(path);
     const index = path.lastIndexOf("\\");
-    const photoName = path.slice(index+1);
+    const photoName = path.slice(index + 1);
     return `${folderPath}${photoName}`
- 
+
 }
 
-const saveContact = (event)=>{
+const saveContact = (event) => {
     const newContact = {
         id: generateAddressID(),
         name: `${document.getElementById("name-new-contact").value}`,
@@ -83,18 +82,19 @@ const saveContact = (event)=>{
         email: `${document.getElementById("email-new-contact").value}`,
         group: `${document.getElementById("group-new-contact").value}`,
         address: `${document.getElementById("address-new-contact").value}`,
-        birth_day: `${document.getElementById("birth-day-new-contact").value}`,
+        birth_day: `document.getElementById("birth-day-new-contact").value}`,
         photo: getPhotoPath(document.getElementById("photo-new-contact").value),
+        dateCreated: new Date().toLocaleDateString(),
     }
     address_book.push(newContact);
     init(address_book);
     closeModal(create_new_contact_modal);
 }
 
-const saveEditedContact = (htmlObject)=>{
+const saveEditedContact = (htmlObject) => {
     const addressID = htmlObject[0].id;
-    const index = address_book.findIndex((element)=>{
-        return element.id==addressID;
+    const index = address_book.findIndex((element) => {
+        return element.id == addressID;
     })
     address_book[index].name = document.getElementById("name-edit-contact").value;
     address_book[index].phone = document.getElementById("phone-edit-contact").value;
@@ -108,24 +108,24 @@ const saveEditedContact = (htmlObject)=>{
     closeModal(editContactModal);
 }
 
-const closeModal = (modal)=>{
+const closeModal = (modal) => {
     modal.style.display = "none";
 }
 
-function closeCreateNewContactModal(){
+function closeCreateNewContactModal() {
     closeModal(create_new_contact_modal);
 }
 
-function closeEditContactModal(){
+function closeEditContactModal() {
     closeModal(editContactModal);
 }
 
-window.addEventListener("click", (event)=>{
-    if(event.target === create_new_contact_modal)
+window.addEventListener("click", (event) => {
+    if (event.target === create_new_contact_modal)
         closeModal(create_new_contact_modal);
-    else if(event.target === view_contact_modal)
+    else if (event.target === view_contact_modal)
         closeModal(view_contact_modal);
-    else if(event.target === editContactModal)
+    else if (event.target === editContactModal)
         closeModal(editContactModal);
 })
 
@@ -138,9 +138,9 @@ window.addEventListener("click", (event)=>{
 
 const view_contact_modal = document.getElementById("view-contact-modal");
 
-function displayContact(event){
-    address = address_book.find((addr)=>{
-        return addr.id == event.currentTarget.id;
+function displayContact(addressID) {
+    address = address_book.find((addr) => {
+        return addr.id == addressID;
     });
     view_contact_modal.style.display = "block";                 //"./images/user_profile.png"
     view_contact_modal.children[0].innerHTML = `
@@ -184,13 +184,13 @@ function displayContact(event){
 
 const editContactModal = document.getElementById("edit-contact-modal");
 
-function handleAddressEdit(addressID){
+function handleAddressEdit(addressID) {
     editContactModal.style.display = "block";
-    const address = address_book.find((addr)=>{
+    const address = address_book.find((addr) => {
         return addr.id == addressID;
-    }); 
-    editContactModal.children[0].innerHTML = 
-    `<h2>Edit Contact</h2>
+    });
+    editContactModal.children[0].innerHTML =
+        `<h2>Edit Contact</h2>
     <div class="modal-flex-area">
         <div class="flex-item-1">
             <img src="./images/user_profile.png">
@@ -213,10 +213,10 @@ function handleAddressEdit(addressID){
                     <tr>
                         <td class="col1"><label for="group-edit-contact">Group</label></td>
                         <td class="col2"><select id="group-edit-contact" name="Group">
-                            <option value="None" ${"None"==address.group?"selected":""}>None</option>
-                            <option value="Favourites" ${"Favourites"==address.group?"selected":""}>Favourites</option>
-                            <option value="Home" ${"Home"==address.group?"selected":""}>Home</option>
-                            <option value="Work" ${"Work"==address.group?"selected":""}>Work</option>
+                            <option value="None" ${"None" == address.group ? "selected" : ""}>None</option>
+                            <option value="Favourites" ${"Favourites" == address.group ? "selected" : ""}>Favourites</option>
+                            <option value="Home" ${"Home" == address.group ? "selected" : ""}>Home</option>
+                            <option value="Work" ${"Work" == address.group ? "selected" : ""}>Work</option>
                         </select></td>
                     </tr>
                     <tr>
@@ -245,50 +245,50 @@ function handleAddressEdit(addressID){
 
 
 const search_contact = document.getElementById("search-contact");
-handleChange = ()=>{
+handleChange = () => {
     let timeout;
-    return function(event){
+    return function (event) {
         clearTimeout(timeout);
-        timeout = setTimeout((previous)=>{
+        timeout = setTimeout((previous) => {
             const name = event.target.value;
-            const matchedAddress = address_book.filter((address)=>{             
-                if(address.name.toLowerCase().search(name.toLowerCase()) !== -1)
+            const matchedAddress = address_book.filter((address) => {
+                if (address.name.toLowerCase().search(name.toLowerCase()) !== -1)
                     return true;
-                else if(address.email.toLowerCase().search(name.toLowerCase()) !== -1)
+                else if (address.email.toLowerCase().search(name.toLowerCase()) !== -1)
                     return true;
-                else if(address.phone.search(name.toLowerCase()) !== -1)
+                else if (address.phone.search(name.toLowerCase()) !== -1)
                     return true;
                 else
                     return false
             });
-            init(matchedAddress);            
+            init(matchedAddress);
         }, 100);
     }
 }
-search_contact.addEventListener("input",handleChange());
+search_contact.addEventListener("input", handleChange());
 
 
 
 
-function activeGroupGenerator(){
+function activeGroupGenerator() {
     const groupItems = document.getElementById("group-items");
     const activeGroupList = groupItems.getElementsByClassName("active");
-    if(activeGroupList.length==0)
+    if (activeGroupList.length == 0)
         return null;
-    else{
+    else {
         const activeGroup = activeGroupList[0].id.slice(12);
         return activeGroup;
     }
 }
 
-function activeGroupListGenerator(addressBook){
-    
+function activeGroupListGenerator(addressBook) {
+
     const activeGroup = activeGroupGenerator();
-    if(activeGroup == null)
+    if (activeGroup == null)
         return addressBook;
-    else{
-        return addressBook.filter(address=>{
-            if(address.group.includes(activeGroup))
+    else {
+        return addressBook.filter(address => {
+            if (address.group.includes(activeGroup))
                 return true;
             else
                 return false;
@@ -296,89 +296,144 @@ function activeGroupListGenerator(addressBook){
     }
 }
 
-function generateAddressID(){
+function generateAddressID() {
     return '_' + Math.random().toString(36).substr(2, 9);
 }
 
 const folderPath = "/Users/anmol/Desktop/Practice/address-book/images/profile-image/";
 const address_book_area = document.getElementById("address-book-area");
 const address_book = [
-    {id: generateAddressID(),
-    name: "Enakshi Mehra",
-    phone: "9374134502",
-    email: "Enakshi48@yahoo.co.in",
-    group: "Favourites",
-    address: "Chapalfurt, WB 494 600",
-    birth_day: "1990-12-14",
-    photo: `${folderPath}bill-gates.jpeg`,},
-    {id: generateAddressID(),
-    name: "Devadatt Kaniyar",
-    phone: "7500283517",
-    email: "Devadatt74@gmail.com",
-    group: "Work",
-    address: "West Devakberg, NL 872 861",
-    birth_day: "1991-01-24",
-    photo: `${folderPath}charlie.jpeg`},
-    {id: generateAddressID(),
-    name: "Sheela Khan",
-    phone: "6155925572",
-    email: "Sheela_Khan21@gmail.com",
-    group: "Work",
-    address: "Lake Jaya, NL 285 822",
-    birth_day: "1984-06-12",
-    photo: `${folderPath}elon-musk.jpeg`},
-    {id: generateAddressID(),
-    name: "Karan Nair",
-    phone: "6155925572",
-    email: "Karan99@yahoo.co.in",
-    group: "Favourites",
-    address: "Dhyaneshburgh, PY 886 773",
-    birth_day: "1943-04-12",
-    photo: `${folderPath}hazard.jpeg`},
-    {id: generateAddressID(),
-    name: "Vaishvi Abbott",
-    phone: "6155925572",
-    email: "Vaishvi85@gmail.com",
-    group: "Work",
-    address: "North Bhanumatiside, UK 604 941",
-    birth_day: "1955-04-19",
-    photo: `${folderPath}jack.jpeg`},
-    {id: generateAddressID(),
-    name: "Chatura Joshi",
-    phone: "6155925572",
-    email: "Chatura60@gmail.com",
-    group: "Home",
-    address: "Chapalfurt, WB 494 600",
-    birth_day: "1988-08-22",
-    photo: `${folderPath}mark.jpeg`},
+    {
+        id: generateAddressID(),
+        name: "Enakshi Mehra",
+        phone: "9374134502",
+        email: "Enakshi48@yahoo.co.in",
+        group: "Favourites",
+        address: "Chapalfurt, WB 494 600",
+        birth_day: "1990-12-14",
+        photo: `${folderPath}bill-gates.jpeg`,
+        dateCreated: new Date().toLocaleDateString(),
+    },
+    {
+        id: generateAddressID(),
+        name: "Devadatt Kaniyar",
+        phone: "7500283517",
+        email: "Devadatt74@gmail.com",
+        group: "Work",
+        address: "West Devakberg, NL 872 861",
+        birth_day: "1991-01-24",
+        photo: `${folderPath}charlie.jpeg`,
+        dateCreated: new Date().toLocaleDateString(),
+    },
+    {
+        id: generateAddressID(),
+        name: "Sheela Khan",
+        phone: "6155925572",
+        email: "Sheela_Khan21@gmail.com",
+        group: "Work",
+        address: "Lake Jaya, NL 285 822",
+        birth_day: "1984-06-12",
+        photo: `${folderPath}elon-musk.jpeg`,
+        dateCreated: new Date().toLocaleDateString(),
+    },
+    {
+        id: generateAddressID(),
+        name: "Karan Nair",
+        phone: "6155925572",
+        email: "Karan99@yahoo.co.in",
+        group: "Favourites",
+        address: "Dhyaneshburgh, PY 886 773",
+        birth_day: "1943-04-12",
+        photo: `${folderPath}hazard.jpeg`,
+        dateCreated: new Date().toLocaleDateString(),
+    },
+    {
+        id: generateAddressID(),
+        name: "Vaishvi Abbott",
+        phone: "6155925572",
+        email: "Vaishvi85@gmail.com",
+        group: "Work",
+        address: "North Bhanumatiside, UK 604 941",
+        birth_day: "1955-04-19",
+        photo: `${folderPath}jack.jpeg`,
+        dateCreated: new Date().toLocaleDateString(),
+    },
+    {
+        id: generateAddressID(),
+        name: "Chatura Joshi",
+        phone: "6155925572",
+        email: "Chatura60@gmail.com",
+        group: "Home",
+        address: "Chapalfurt, WB 494 600",
+        birth_day: "1988-08-22",
+        photo: `${folderPath}mark.jpeg`,
+        dateCreated: new Date().toLocaleDateString(),
+    },
 ];
 
-function handleAddressDelete(addressID){
-    const index = address_book.findIndex((element)=>{
-        return element.id==addressID;
+function handleAddressDelete(addressID) {
+    const index = address_book.findIndex((element) => {
+        return element.id == addressID;
     })
     const result = confirm(`Are you sure you want to Delete this contact?`);
-    if(result==true){
+    if (result == true) {
         address_book.splice(index, 1);
-        setTimeout(()=>{init(address_book)},200);
+        setTimeout(() => { init(address_book) }, 200);
     }
 }
 
-function handleAddressOptions(event){
-    if(event.target.id=='placard-delete')
+function handleAddressOptions(event) {
+    if (event.target.id == 'placard-delete')
         handleAddressDelete(event.currentTarget.id);
-    else if(event.target.id=='placard-edit')
+    else if (event.target.id == 'placard-edit')
         handleAddressEdit(event.currentTarget.id);
+    else
+        displayContact(event.currentTarget.id);
 }
 
-function renderAddressBook(address_book){
+function getInitials(name){
+    const words = name.split(' ');
+    let initials ='';
+    words.forEach(word=>{
+        initials+=word[0];
+    });
+    return initials;
+}
+
+function renderAddressBook(address_book) {
     address_book.forEach(element => {
         const address = document.createElement("div");
         address.className = 'placard';
+        address.id=element.id;
 
-        const addressField = document.createElement("table");
+        address.innerHTML = `
+            <div class="group-initial">
+                <h2>${getInitials(element.group)}</h2>
+            </div>
+            <div class="profile" style="background-color: ${'#'+Math.floor(Math.random()*16777215).toString(16)}">
+                <h1>${getInitials(element.name)}</h1>
+            </div>
+            <div class="profile-photo" 
+                style="background-image: url('${element.photo != null ? element.photo : "ea"}'); background-size: cover">
+            </div>            
+            <div class="content">
+                <h1>${element.name}</h1>
+                <h2>${element.phone}</h2>
+                <p>${element.email}</p>
+            </div>
+            <div class="date-created">
+                <p>Added on: ${element.dateCreated}</p>
+            </div>
+            <div class="options">
+                <img id="placard-edit" src="./images/edit-icon-6.png" width="50px" height="50px">
+                <img id="placard-delete" src="./images/delete.jpeg" width="50px" height="50px">
+            </div>
+        `
+        address.addEventListener("click",handleAddressOptions);
+
+/*        const addressField = document.createElement("table");
         addressField.id = element.id;
-        addressField.addEventListener("click",displayContact);
+        addressField.addEventListener("click", displayContact);
         addressField.innerHTML = `
             <tr>
                 <td class="col1">Name:</td>
@@ -395,27 +450,28 @@ function renderAddressBook(address_book){
             <tr>
                 <td class="col1">Group:</td>
                 <td class="col2">${element.group}</td>
-            </tr>`  
-        
+            </tr>`
+
         const addressOptions = document.createElement("div");
-        addressOptions.id=element.id;
-        addressOptions.addEventListener("click",handleAddressOptions)
+        addressOptions.id = element.id;
+        addressOptions.addEventListener("click", handleAddressOptions)
         addressOptions.innerHTML = `
             <img id="placard-delete" src="./images/delete.jpeg" width="50em" height="50em">
             <img id="placard-edit" src="./images/edit-icon-6.png" width="50em" height="50em">
-        `
+        `*/
 
-        address.appendChild(addressOptions);
-        address.appendChild(addressField);        
+//        address.appendChild(addressOptions);
+  //      address.appendChild(addressField);
         address_book_area.appendChild(address);
     });
 
 }
-function init(address_book){
+
+function init(address_book) {
     address_book_area.textContent = '';
     const activeGroupList = activeGroupListGenerator(address_book);
-    activeGroupList.sort(function(a, b){
-        if(a.name.toLowerCase() < b.name.toLowerCase())
+    activeGroupList.sort(function (a, b) {
+        if (a.name.toLowerCase() < b.name.toLowerCase())
             return -1;
         else
             return 1;
