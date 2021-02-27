@@ -57,11 +57,23 @@ const create_new_contact_modal = document.getElementById("create-new-contact-mod
 
 create_new_contact.addEventListener("click",()=>{
     create_new_contact_modal.style.display = "block";
+    const formElement = create_new_contact_modal.querySelector("form");
+    formElement.reset();
     let activeGroup = activeGroupGenerator();
     if(activeGroup==null)
         activeGroup = "None";
     document.getElementById("group-new-contact").value=activeGroup;
 });
+
+function getPhotoPath(path){
+    if(path == null)
+        return null;
+    console.log(path);
+    const index = path.lastIndexOf("\\");
+    const photoName = path.slice(index+1);
+    return `${folderPath}${photoName}`
+ 
+}
 
 const saveContact = (event)=>{
     const newContact = {
@@ -72,7 +84,7 @@ const saveContact = (event)=>{
         group: `${document.getElementById("group-new-contact").value}`,
         address: `${document.getElementById("address-new-contact").value}`,
         birth_day: `${document.getElementById("birth-day-new-contact").value}`,
-        photo: `${document.getElementById("photo-new-contact").value}`,
+        photo: getPhotoPath(document.getElementById("photo-new-contact").value),
     }
     address_book.push(newContact);
     init(address_book);
@@ -90,7 +102,7 @@ const saveEditedContact = (htmlObject)=>{
     address_book[index].group = document.getElementById("group-edit-contact").value;
     address_book[index].address = document.getElementById("address-edit-contact").value;
     address_book[index].birth_day = document.getElementById("birth-day-edit-contact").value;
-    address_book[index].photo = document.getElementById("photo-edit-contact").value;
+    address_book[index].photo = getPhotoPath(document.getElementById("photo-edit-contact").value);
 
     init(address_book);
     closeModal(editContactModal);
@@ -130,38 +142,38 @@ function displayContact(event){
     address = address_book.find((addr)=>{
         return addr.id == event.currentTarget.id;
     });
-    view_contact_modal.style.display = "block";     
+    view_contact_modal.style.display = "block";                 //"./images/user_profile.png"
     view_contact_modal.children[0].innerHTML = `
     <h2>Contact Details</h2>
     <div class="modal-flex-area">
         <div class="flex-item-1">
-            <img src="./images/user_profile.png">
+            <img src=${address.photo} width="100%" height="100%">
         </div>
         <div class="flex-item-2">
             <table>
                 <tr>
                     <td class="col1">Name</td>
-                    <td>${address.name}</td>
+                    <td class="col2">${address.name}</td>
                 </tr>
                 <tr>
                     <td class="col1">Phone</td>
-                    <td>${address.phone}</td>
+                    <td class="col2">${address.phone}</td>
                 </tr>     
                 <tr>
                     <td class="col1">Email</td>
-                    <td>${address.email}</td>
+                    <td class="col2">${address.email}</td>
                 </tr>                        
                 <tr>
                     <td class="col1">Group</td>
-                    <td>${address.group}</td>
+                    <td class="col2">${address.group}</td>
                 </tr>        
                 <tr>
-                    <td class="col1">Birthday</td>
-                    <td>${address.birth_day}</td>
+                    <td class="col1">Date of birth</td>
+                    <td class="col2">${address.birth_day}</td>
                 </tr>                
                 <tr>
                     <td class="col1">Address</td>
-                    <td>${address.address}</td>
+                    <td class="col2">${address.address}</td>
                 </tr>
             </table>
         </div>
@@ -188,19 +200,19 @@ function handleAddressEdit(addressID){
                 <table>
                     <tr>
                         <td class="col1"><label for="name-edit-contact">Name</label></td>
-                        <td><input type="text" id="name-edit-contact" name="Name" value='${address.name}' required></td>
+                        <td class="col2"><input type="text" id="name-edit-contact" name="Name" value='${address.name}' required></td>
                     </tr>
                     <tr>
                         <td class="col1"><label for="phone-edit-contact">Phone</label></td>
-                        <td><input type="tel" id="phone-edit-contact" name="Phone" pattern="[1-9]{1}[0-9]{9}" value=${address.phone}></td>
+                        <td class="col2"><input type="tel" id="phone-edit-contact" name="Phone" pattern="[1-9]{1}[0-9]{9}" value=${address.phone}></td>
                     </tr>
                     <tr>
                         <td class="col1"><label for="email-edit-contact">Email</label></td>
-                        <td> <input type="email" id="email-edit-contact" name="Email" value=${address.email}></td>
+                        <td class="col2"><input type="email" id="email-edit-contact" name="Email" value=${address.email}></td>
                     </tr>
                     <tr>
                         <td class="col1"><label for="group-edit-contact">Group</label></td>
-                        <td><select id="group-edit-contact" name="Group">
+                        <td class="col2"><select id="group-edit-contact" name="Group">
                             <option value="None" ${"None"==address.group?"selected":""}>None</option>
                             <option value="Favourites" ${"Favourites"==address.group?"selected":""}>Favourites</option>
                             <option value="Home" ${"Home"==address.group?"selected":""}>Home</option>
@@ -209,15 +221,15 @@ function handleAddressEdit(addressID){
                     </tr>
                     <tr>
                         <td class="col1"><label for="birth-day-edit-contact">Birthday</label></td>
-                        <td><input type="date" id="birth-day-edit-contact" name="Birthday" value=${address.birth_day}                  
+                        <td class="col2"><input type="date" id="birth-day-edit-contact" name="Birthday" value=${address.birth_day}                  
                     </tr>
                     <tr>
                         <td class="col1"><label for="address-edit-contact">Address</label></td>
-                        <td><textarea id="address-edit-contact" name="Address">${address.address}</textarea></td>
+                        <td class="col2"><textarea id="address-edit-contact" name="Address">${address.address}</textarea></td>
                     </tr>
                     <tr>
                         <td class="col1"><label for="photo-edit-contact">Photo</label></td>
-                        <td><input type="file" accept="image/gif, image/jpeg, image/png" id="photo-edit-contact" name="Photo" value=${address.photo}></input></td>
+                        <td class="col2"><input type="file" accept="image/gif, image/jpeg, image/png" id="photo-edit-contact" name="Photo" value=${address.photo}></input></td>
                     </tr>
                 </table>
                 <div id="buttons">
@@ -288,6 +300,7 @@ function generateAddressID(){
     return '_' + Math.random().toString(36).substr(2, 9);
 }
 
+const folderPath = "/Users/anmol/Desktop/Practice/address-book/images/profile-image/";
 const address_book_area = document.getElementById("address-book-area");
 const address_book = [
     {id: generateAddressID(),
@@ -297,7 +310,7 @@ const address_book = [
     group: "Favourites",
     address: "Chapalfurt, WB 494 600",
     birth_day: "1990-12-14",
-    photo: "",},
+    photo: `${folderPath}bill-gates.jpeg`,},
     {id: generateAddressID(),
     name: "Devadatt Kaniyar",
     phone: "7500283517",
@@ -305,7 +318,7 @@ const address_book = [
     group: "Work",
     address: "West Devakberg, NL 872 861",
     birth_day: "1991-01-24",
-    photo: "",},
+    photo: `${folderPath}charlie.jpeg`},
     {id: generateAddressID(),
     name: "Sheela Khan",
     phone: "6155925572",
@@ -313,7 +326,7 @@ const address_book = [
     group: "Work",
     address: "Lake Jaya, NL 285 822",
     birth_day: "1984-06-12",
-    photo: "",},
+    photo: `${folderPath}elon-musk.jpeg`},
     {id: generateAddressID(),
     name: "Karan Nair",
     phone: "6155925572",
@@ -321,7 +334,7 @@ const address_book = [
     group: "Favourites",
     address: "Dhyaneshburgh, PY 886 773",
     birth_day: "1943-04-12",
-    photo: "",},
+    photo: `${folderPath}hazard.jpeg`},
     {id: generateAddressID(),
     name: "Vaishvi Abbott",
     phone: "6155925572",
@@ -329,7 +342,7 @@ const address_book = [
     group: "Work",
     address: "North Bhanumatiside, UK 604 941",
     birth_day: "1955-04-19",
-    photo: "",},
+    photo: `${folderPath}jack.jpeg`},
     {id: generateAddressID(),
     name: "Chatura Joshi",
     phone: "6155925572",
@@ -337,15 +350,18 @@ const address_book = [
     group: "Home",
     address: "Chapalfurt, WB 494 600",
     birth_day: "1988-08-22",
-    photo: "",},
+    photo: `${folderPath}mark.jpeg`},
 ];
 
 function handleAddressDelete(addressID){
     const index = address_book.findIndex((element)=>{
         return element.id==addressID;
     })
-    address_book.splice(index, 1);
-    init(address_book);
+    const result = confirm(`Are you sure you want to Delete this contact?`);
+    if(result==true){
+        address_book.splice(index, 1);
+        setTimeout(()=>{init(address_book)},200);
+    }
 }
 
 function handleAddressOptions(event){
@@ -366,19 +382,19 @@ function renderAddressBook(address_book){
         addressField.innerHTML = `
             <tr>
                 <td class="col1">Name:</td>
-                <td>${element.name}</td>
+                <td class="col2">${element.name}</td>
             </tr>
             <tr>
                 <td class="col1">Phone:</td>
-                <td>${element.phone}</td>
+                <td class="col2">${element.phone}</td>
             </tr>
             <tr>
                 <td class="col1">Email:</td>
-                <td>${element.email}</td>
+                <td class="col2">${element.email}</td>
             </tr>
             <tr>
                 <td class="col1">Group:</td>
-                <td>${element.group}</td>
+                <td class="col2">${element.group}</td>
             </tr>`  
         
         const addressOptions = document.createElement("div");
