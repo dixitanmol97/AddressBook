@@ -8,19 +8,24 @@ hamburger_button.addEventListener("click", () => {
     if (nav_bar.style.width === "15%") {
         nav_bar.style.width = "0%";
         main.style.marginLeft = "0%";
+        hamburger_button.innerHTML = "&#10095;";
     }
     else {
         nav_bar.style.width = "15%";
         main.style.marginLeft = "15%";
+        hamburger_button.innerHTML = "&#10094;";
     }
 });
 
 groups.addEventListener("click", () => {
     if (group_items.style.display === "block") {
         group_items.style.display = "none";
+        groups.innerHTML = "Groups &#9660;";
     }
-    else
+    else{
         group_items.style.display = "block";
+        groups.innerHTML = "Groups &#9650;";
+    }
 });
 
 
@@ -82,7 +87,7 @@ const saveContact = (event) => {
         email: `${document.getElementById("email-new-contact").value}`,
         group: `${document.getElementById("group-new-contact").value}`,
         address: `${document.getElementById("address-new-contact").value}`,
-        birth_day: `document.getElementById("birth-day-new-contact").value}`,
+        birth_day: `${document.getElementById("birth-day-new-contact").value}`,
         photo: getPhotoPath(document.getElementById("photo-new-contact").value),
         dateCreated: new Date().toLocaleDateString(),
     }
@@ -147,7 +152,7 @@ function displayContact(addressID) {
     <h2>Contact Details</h2>
     <div class="modal-flex-area">
         <div class="flex-item-1">
-            <img src=${address.photo} width="100%" height="100%">
+            <img src=${address.photo!==null ? address.photo: './images/user_profile.png'} width="100%" height="100%">
         </div>
         <div class="flex-item-2">
             <table>
@@ -193,7 +198,7 @@ function handleAddressEdit(addressID) {
         `<h2>Edit Contact</h2>
     <div class="modal-flex-area">
         <div class="flex-item-1">
-            <img src="./images/user_profile.png">
+            <img src=${address.photo!==null ? address.photo: './images/user_profile.png'}>
         </div>
         <div class="flex-item-2">
             <form onsubmit="saveEditedContact(${address.id}); return false;">
@@ -410,6 +415,9 @@ function renderAddressBook(address_book) {
             <div class="group-initial">
                 <h2>${getInitials(element.group)}</h2>
             </div>
+            <div class="group-name">
+                ${element.group}
+            </div>
             <div class="profile" style="background-color: ${'#'+Math.floor(Math.random()*16777215).toString(16)}">
                 <h1>${getInitials(element.name)}</h1>
             </div>
@@ -425,8 +433,8 @@ function renderAddressBook(address_book) {
                 <p>Added on: ${element.dateCreated}</p>
             </div>
             <div class="options">
-                <img id="placard-edit" src="./images/edit-icon-6.png" width="50px" height="50px">
-                <img id="placard-delete" src="./images/delete.jpeg" width="50px" height="50px">
+                <img id="placard-edit" src="./images/edit-icon-6.png" width="30px" height="35px">
+                <img id="placard-delete" src="./images/delete.jpeg" width="30px" height="35px">
             </div>
         `
         address.addEventListener("click",handleAddressOptions);
