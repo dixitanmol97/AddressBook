@@ -71,7 +71,7 @@ function getPhotoPath(path) {
     
     console.log(path);
     if(path == '')
-        return null;
+        return "null";
     console.log(path);
     const index = path.lastIndexOf("\\");
     const photoName = path.slice(index + 1);
@@ -88,7 +88,7 @@ const saveContact = (event) => {
         group: `${document.getElementById("group-new-contact").value}`,
         address: `${document.getElementById("address-new-contact").value}`,
         birth_day: `${document.getElementById("birth-day-new-contact").value}`,
-        photo: getPhotoPath(document.getElementById("photo-new-contact").value),
+        photo: `${getPhotoPath(document.getElementById("photo-new-contact").value)}`,
         dateCreated: new Date().toLocaleDateString(),
     }
     address_book.push(newContact);
@@ -96,8 +96,10 @@ const saveContact = (event) => {
     closeModal(create_new_contact_modal);
 }
 
-const saveEditedContact = (htmlObject) => {
-    const addressID = htmlObject[0].id;
+const saveEditedContact = (address) => {
+    
+    const addressID = address.id;
+    console.log(addressID)
     const index = address_book.findIndex((element) => {
         return element.id == addressID;
     })
@@ -107,8 +109,9 @@ const saveEditedContact = (htmlObject) => {
     address_book[index].group = document.getElementById("group-edit-contact").value;
     address_book[index].address = document.getElementById("address-edit-contact").value;
     address_book[index].birth_day = document.getElementById("birth-day-edit-contact").value;
-    address_book[index].photo = getPhotoPath(document.getElementById("photo-edit-contact").value);
-
+    const editedPhoto = `${getPhotoPath(document.getElementById("photo-edit-contact").value)}`;
+    if(editedPhoto != "null")
+        address_book[index].photo = editedPhoto;
     init(address_book);
     closeModal(editContactModal);
 }
@@ -152,7 +155,7 @@ function displayContact(addressID) {
     <h2>Contact Details</h2>
     <div class="modal-flex-area">
         <div class="flex-item-1">
-            <img src=${address.photo!==null ? address.photo: './images/user_profile.png'} width="100%" height="100%">
+            <img src=${(address.photo !== "null" )? address.photo : './images/user_profile.png'} width="100%" height="100%">
         </div>
         <div class="flex-item-2">
             <table>
@@ -198,10 +201,10 @@ function handleAddressEdit(addressID) {
         `<h2>Edit Contact</h2>
     <div class="modal-flex-area">
         <div class="flex-item-1">
-            <img src=${address.photo!==null ? address.photo: './images/user_profile.png'}>
+            <img src=${address.photo!=="null" ? address.photo: './images/user_profile.png'}>
         </div>
         <div class="flex-item-2">
-            <form onsubmit="saveEditedContact(${address.id}); return false;">
+            <form onsubmit="return false">
                 <table>
                     <tr>
                         <td class="col1"><label for="name-edit-contact">Name</label></td>
@@ -234,12 +237,12 @@ function handleAddressEdit(addressID) {
                     </tr>
                     <tr>
                         <td class="col1"><label for="photo-edit-contact">Photo</label></td>
-                        <td class="col2"><input type="file" accept="image/gif, image/jpeg, image/png" id="photo-edit-contact" name="Photo" value=${address.photo}></input></td>
+                        <td class="col2"><input type="file" accept="image/gif, image/jpeg, image/png" id="photo-edit-contact" name="Photo"></input></td>
                     </tr>
                 </table>
                 <div id="buttons">
                     <input type="button" value="Cancel" onclick="closeEditContactModal()" />
-                    <input type="submit" value="Submit" />
+                    <input type="submit" value="Submit" onclick="saveEditedContact(${addressID});"/>
                 <div>
             </form>                        
         </div>
@@ -422,7 +425,7 @@ function renderAddressBook(address_book) {
                 <h1>${getInitials(element.name)}</h1>
             </div>
             <div class="profile-photo" 
-                style="background-image: url('${element.photo != null ? element.photo : "ea"}'); background-size: cover">
+                style="background-image: url('${element.photo != "null" ? element.photo : "ea"}'); background-size: cover">
             </div>            
             <div class="content">
                 <h1>${element.name}</h1>
