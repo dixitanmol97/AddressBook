@@ -3,16 +3,23 @@ const nav_bar = document.querySelector("nav");
 const main = document.querySelector("main");
 const groups = document.getElementById("groups");
 const group_items = document.getElementById("group-items");
+const footer = document.querySelector("footer");
+const header = document.querySelector("header");
+const message = document.getElementById("message");
 
 hamburger_button.addEventListener("click", () => {
     if (nav_bar.style.width === "15%") {
         nav_bar.style.width = "0%";
         main.style.marginLeft = "0%";
+        footer.style.marginLeft = "0%";
+        header.style.marginLeft = "0%";
         hamburger_button.innerHTML = "&#10095;";
     }
     else {
         nav_bar.style.width = "15%";
         main.style.marginLeft = "15%";
+        footer.style.marginLeft = "15%";
+        header.style.marginLeft = "15%";
         hamburger_button.innerHTML = "&#10094;";
     }
 });
@@ -50,6 +57,10 @@ function displayGroup(groupName) {
     }
 }
 
+function displayMessage(messageText){
+    message.innerHTML = messageText;
+    setTimeout(()=>{message.innerHTML = ``},2000);
+}
 
 
 
@@ -84,7 +95,7 @@ const saveContact = (event) => {
         id: generateAddressID(),
         name: `${document.getElementById("name-new-contact").value}`,
         phone: `${document.getElementById("phone-new-contact").value}`,
-        email: `${document.getElementById("email-new-contact").value}`,
+        email: `${document.getElementById("email-new-contact").value.toLowerCase()}`,
         group: `${document.getElementById("group-new-contact").value}`,
         address: `${document.getElementById("address-new-contact").value}`,
         birth_day: `${document.getElementById("birth-day-new-contact").value}`,
@@ -94,6 +105,7 @@ const saveContact = (event) => {
     address_book.push(newContact);
     init(address_book);
     closeModal(create_new_contact_modal);
+    displayMessage("Contact has been successfully Created");
 }
 
 const saveEditedContact = (address) => {
@@ -105,7 +117,7 @@ const saveEditedContact = (address) => {
     })
     address_book[index].name = document.getElementById("name-edit-contact").value;
     address_book[index].phone = document.getElementById("phone-edit-contact").value;
-    address_book[index].email = document.getElementById("email-edit-contact").value;
+    address_book[index].email = document.getElementById("email-edit-contact").value.toLowerCase();
     address_book[index].group = document.getElementById("group-edit-contact").value;
     address_book[index].address = document.getElementById("address-edit-contact").value;
     address_book[index].birth_day = document.getElementById("birth-day-edit-contact").value;
@@ -114,6 +126,7 @@ const saveEditedContact = (address) => {
         address_book[index].photo = editedPhoto;
     init(address_book);
     closeModal(editContactModal);
+    displayMessage("Contact has been successfully Edited");
 }
 
 const closeModal = (modal) => {
@@ -315,7 +328,7 @@ const address_book = [
         id: generateAddressID(),
         name: "Enakshi Mehra",
         phone: "9374134502",
-        email: "Enakshi48@yahoo.co.in",
+        email: "enakshi48@yahoo.co.in",
         group: "Favourites",
         address: "Chapalfurt, WB 494 600",
         birth_day: "1990-12-14",
@@ -326,7 +339,7 @@ const address_book = [
         id: generateAddressID(),
         name: "Devadatt Kaniyar",
         phone: "7500283517",
-        email: "Devadatt74@gmail.com",
+        email: "devadatt74@gmail.com",
         group: "Work",
         address: "West Devakberg, NL 872 861",
         birth_day: "1991-01-24",
@@ -337,7 +350,7 @@ const address_book = [
         id: generateAddressID(),
         name: "Sheela Khan",
         phone: "6155925572",
-        email: "Sheela_Khan21@gmail.com",
+        email: "sheela_Khan21@gmail.com",
         group: "Work",
         address: "Lake Jaya, NL 285 822",
         birth_day: "1984-06-12",
@@ -348,7 +361,7 @@ const address_book = [
         id: generateAddressID(),
         name: "Karan Nair",
         phone: "6155925572",
-        email: "Karan99@yahoo.co.in",
+        email: "karan99@yahoo.co.in",
         group: "Favourites",
         address: "Dhyaneshburgh, PY 886 773",
         birth_day: "1943-04-12",
@@ -359,7 +372,7 @@ const address_book = [
         id: generateAddressID(),
         name: "Vaishvi Abbott",
         phone: "6155925572",
-        email: "Vaishvi85@gmail.com",
+        email: "vaishvi85@gmail.com",
         group: "Work",
         address: "North Bhanumatiside, UK 604 941",
         birth_day: "1955-04-19",
@@ -370,7 +383,7 @@ const address_book = [
         id: generateAddressID(),
         name: "Chatura Joshi",
         phone: "6155925572",
-        email: "Chatura60@gmail.com",
+        email: "chatura60@gmail.com",
         group: "Home",
         address: "Chapalfurt, WB 494 600",
         birth_day: "1988-08-22",
@@ -387,6 +400,7 @@ function handleAddressDelete(addressID) {
     if (result == true) {
         address_book.splice(index, 1);
         setTimeout(() => { init(address_book) }, 200);
+        displayMessage("Contact has been successfully Deleted");
     }
 }
 
@@ -395,6 +409,9 @@ function handleAddressOptions(event) {
         handleAddressDelete(event.currentTarget.id);
     else if (event.target.id == 'placard-edit')
         handleAddressEdit(event.currentTarget.id);
+    else if(event.target.id == 'group-initial' || event.target.id == 'group-initial-h2' || event.target.id == 'group-initial-span'){
+
+    }
     else
         displayContact(event.currentTarget.id);
 }
@@ -411,15 +428,12 @@ function getInitials(name){
 function renderAddressBook(address_book) {
     address_book.forEach(element => {
         const address = document.createElement("div");
-        address.className = 'placard';
+        address.className = 'hvr-grow placard';
         address.id=element.id;
 
         address.innerHTML = `
-            <div class="group-initial">
-                <h2>${getInitials(element.group)}</h2>
-            </div>
-            <div class="group-name">
-                ${element.group}
+            <div id="group-initial" class="group-initial tooltip" title="Group: ${element.group}">
+                <h2 id="group-initial-h2">${getInitials(element.group)}</h2>
             </div>
             <div class="profile" style="background-color: ${'#'+Math.floor(Math.random()*16777215).toString(16)}">
                 <h1>${getInitials(element.name)}</h1>
@@ -429,15 +443,17 @@ function renderAddressBook(address_book) {
             </div>            
             <div class="content">
                 <h1>${element.name}</h1>
-                <h2>${element.phone}</h2>
-                <p>${element.email}</p>
+                <h2><strong>Phone:</strong> ${element.phone}</h2>
+                <h2><strong>Email:</strong> ${element.email}</h2>
             </div>
             <div class="date-created">
-                <p>Added on: ${element.dateCreated}</p>
+                <p>Created on: ${element.dateCreated}</p>
             </div>
             <div class="options">
-                <img id="placard-edit" src="./images/edit-icon-6.png" width="30px" height="35px">
-                <img id="placard-delete" src="./images/delete.jpeg" width="30px" height="35px">
+                <div id="placard-edit" title="Edit Contact">
+                    <img id="placard-edit" src="./images/edit-icon-6.png" width="30px" height="35px">                </div>
+                <div id="placard-delete" title="Delete Contact">
+                    <img id="placard-delete" src="./images/delete.jpeg" width="30px" height="35px">                </div>
             </div>
         `
         address.addEventListener("click",handleAddressOptions);
