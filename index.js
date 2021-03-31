@@ -165,7 +165,7 @@ function displayContact(addressID) {
             <img src=${
               address.photo !== "null"
                 ? address.photo
-                : "./images/user_profile.png"
+                : "./assets/images/user_profile.png"
             } width="100%" height="100%">
         </div>
         <div class="flex-item-2">
@@ -212,7 +212,7 @@ function handleAddressEdit(addressID) {
             <img src=${
               address.photo !== "null"
                 ? address.photo
-                : "./images/user_profile.png"
+                : "./assets/images/user_profile.png"
             }>
         </div>
         <div class="flex-item-2">
@@ -326,7 +326,7 @@ function generateAddressID() {
 }
 
 const folderPath =
-  "/Users/anmol/Desktop/Practice/address-book/images/profile-image/";
+  "/Users/anmol/Desktop/Practice/address-book/assets/images/profile-image/";
 const address_book_area = document.getElementById("address-book-area");
 const address_book = [
   {
@@ -465,9 +465,9 @@ function renderAddressBook(address_book) {
             </div>
             <div class="options">
                 <div id="placard-edit" title="Edit Contact">
-                    <img id="placard-edit" src="./images/edit-icon-6.png" width="35px" height="35px">                </div>
+                    <img id="placard-edit" src="./assets/images/edit-icon-6.png" width="35px" height="35px">                </div>
                 <div id="placard-delete" title="Delete Contact">
-                    <img id="placard-delete" src="./images/delete.jpeg" width="35px" height="35px">                </div>
+                    <img id="placard-delete" src="./assets/images/delete.jpeg" width="35px" height="35px">                </div>
             </div>
         `;
     address.addEventListener("click", handleAddressOptions);
