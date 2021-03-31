@@ -1,4 +1,4 @@
-Efficiently store and view or group your contacts, all in one place
+# Efficiently store and view or group your contacts, all in one place
 
 Features:
 
